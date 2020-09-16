@@ -1,6 +1,8 @@
 # RaspberryPiBluetooth
 This is a repository I use to document all my learning with Bluetooth capabilities and commands of a raspberrypi.
 
+Using a Raspberry Pi 3 Model B v1.2
+- BCM43438 wireless LAN and Bluetooth Low Energy (BLE) on board
 
 ## Commands
  ```
