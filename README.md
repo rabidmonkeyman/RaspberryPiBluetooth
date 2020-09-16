@@ -14,20 +14,23 @@ This is a repository I use to document all my learning with Bluetooth capabiliti
  hcitool scan - gets the BD address of the pairable devices in range
  sudo bluetoothctl - This sends you into a shell of your bluetooth module
  ```
-sudo apt update // make sure to run this so you can install the bluetooth package
-sudo apt-get dist-upgrade // make sure to run this so you can install the bluetooth package
-sudo apt install bluetooth pi-bluetooth bluez blueman // if you get the error "E:" make sure you did sudo apt upgrade
-sudo apt-get install pi-bluetooth // This is needed to start hciuart will give error "Failed to start hciuart.service: Unit hciuart.service is masked." if you do not do this
+## Setup Instructions
+```
+sudo apt update                                        // make sure to run this so you can install the bluetooth package
+sudo apt-get dist-upgrade                              // make sure to run this so you can install the bluetooth package
+sudo apt install bluetooth pi-bluetooth bluez blueman  // if you get the error "E:" make sure you did sudo apt upgrade
+sudo apt-get install pi-bluetooth                      // This is needed to start hciuart will give error "Failed to start hciuart.service: Unit hciuart.service is masked." if you do not do this
 
 sudo reboot
-systemctl status bluetooth // if Active: inactive (dead) then run the command systemctl start bluetooth
+systemctl status bluetooth                             // if Active: inactive (dead) then run the command systemctl start bluetooth
 systemctl enable bluetooth
 systemctl start bluetooth
-systemctl start hciuart // This keep giving me errors saying "Jobs..." 
-sudo bluetoothctl // This sends you into a shell of your bluetooth module
+systemctl start hciuart                                // This keep giving me errors saying "Jobs..." 
+sudo bluetoothctl                                      // This sends you into a shell of your bluetooth module
 agent on
 default-agent
-scan on //if you get the problem "No Default controller available" you have to fix it lol
+scan on                                                // If you get the problem "No Default controller available" you have to fix it lol
+``
 ## Useful Links
 
 https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/
