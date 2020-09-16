@@ -30,7 +30,7 @@ sudo bluetoothctl                                      // This sends you into a 
 agent on
 default-agent
 scan on                                                // If you get the problem "No Default controller available" you have to fix it lol
-``
+```
 ## Useful Links
 
 https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/
