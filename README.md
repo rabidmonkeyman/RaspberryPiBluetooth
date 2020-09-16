@@ -33,5 +33,5 @@ scan on                                                // If you get the problem
 ```
 ## Useful Links
 
-https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/
+https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/   /n \n
 https://pimylifeup.com/raspberry-pi-bluetooth/
