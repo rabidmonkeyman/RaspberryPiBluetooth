@@ -37,3 +37,45 @@ scan on                                                // If you get the problem
 
 - https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/  
 - https://pimylifeup.com/raspberry-pi-bluetooth/
+- https://scribles.net/disabling-bluetooth-on-raspberry-pi/
+
+## Device Tree Stuff Relating to Bluetooth
+Located @ /boot/overlays/README
+```
+Params:
+        krnbt                   Set to "on" to enable autoprobing of Bluetooth
+                                driver without need of hciattach/btattach
+                                (default "off")
+                              
+                              
+Name:   balena-fin
+Info:   Overlay that enables WiFi, Bluetooth and the GPIO expander on the
+        balenaFin carrier board for the Raspberry Pi Compute Module 3/3+ Lite.
+Load:   dtoverlay=balena-fin
+Params: <None>
+
+
+Name:   disable-bt
+Info:   Disable onboard Bluetooth on Pi 3B, 3B+, 3A+, 4B and Zero W, restoring
+        UART0/ttyAMA0 over GPIOs 14 & 15.
+        N.B. To disable the systemd service that initialises the modem so it
+        doesn't use the UART, use 'sudo systemctl disable hciuart'.
+Load:   dtoverlay=disable-bt
+Params: <None>
+ 
+ 
+Name:   miniuart-bt
+Info:   Switch the onboard Bluetooth function on Pi 3B, 3B+, 3A+, 4B and Zero W
+        to use the mini-UART (ttyS0) and restore UART0/ttyAMA0 over GPIOs 14 &
+        15. Note that this may reduce the maximum usable baudrate.
+        N.B. It is also necessary to edit /lib/systemd/system/hciuart.service
+        and replace ttyAMA0 with ttyS0, unless using Raspbian or another
+        distribution with udev rules that create /dev/serial0 and /dev/serial1,
+        in which case use /dev/serial1 instead because it will always be
+        correct. Furthermore, you must also set core_freq and core_freq_min to
+        the same value in config.txt or the miniuart will not work.
+Load:   dtoverlay=miniuart-bt,<param>=<val>
+Params: krnbt                   Set to "on" to enable autoprobing of Bluetooth
+                                driver without need of hciattach/btattach
+                                
+```
