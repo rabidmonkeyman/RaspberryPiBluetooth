@@ -38,6 +38,7 @@ scan on                                                // If you get the problem
 - https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/  
 - https://pimylifeup.com/raspberry-pi-bluetooth/
 - https://scribles.net/disabling-bluetooth-on-raspberry-pi/
+- https://www.linux-magazine.com/Issues/2017/197/Command-Line-bluetoothctl
 
 ## Device Tree Stuff Relating to Bluetooth
 Located @ /boot/overlays/README
