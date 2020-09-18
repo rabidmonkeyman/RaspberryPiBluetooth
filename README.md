@@ -65,7 +65,7 @@ Load:   dtoverlay=disable-bt
 Params: <None>
  
  
-Name:   miniuart-bt
+Name:   miniuart-bt   //This is also known as pi3-miniuart-bt
 Info:   Switch the onboard Bluetooth function on Pi 3B, 3B+, 3A+, 4B and Zero W
         to use the mini-UART (ttyS0) and restore UART0/ttyAMA0 over GPIOs 14 &
         15. Note that this may reduce the maximum usable baudrate.
@@ -79,4 +79,42 @@ Load:   dtoverlay=miniuart-bt,<param>=<val>
 Params: krnbt                   Set to "on" to enable autoprobing of Bluetooth
                                 driver without need of hciattach/btattach
                                 
+```
+
+- This is what /usr/bin/btuart looks like
+```#!/bin/sh
+
+HCIATTACH=/usr/bin/hciattach
+if grep -q "Pi 4" /proc/device-tree/model; then
+  BDADDR=
+else
+  SERIAL=`cat /proc/device-tree/serial-number | cut -c9-`
+  B1=`echo $SERIAL | cut -c3-4`
+  B2=`echo $SERIAL | cut -c5-6`
+  B3=`echo $SERIAL | cut -c7-8`
+  BDADDR=`printf b8:27:eb:%02x:%02x:%02x $((0x$B1 ^ 0xaa)) $((0x$B2 ^ 0xaa)) $((0x$B3 ^ 0xaa))`
+fi
+
+if [ -e /sys/class/bluetooth/hci0 ]; then
+  # Bluetooth is already enabled
+  exit 0
+fi
+
+uart0="`cat /proc/device-tree/aliases/uart0`"
+serial1="`cat /proc/device-tree/aliases/serial1`"
+
+if [ "$uart0" = "$serial1" ] ; then
+        uart0_pins="`wc -c /proc/device-tree/soc/gpio@7e200000/uart0_pins/brcm\,pins | cut -f 1 -d ' '`"
+        if [ "$uart0_pins" = "16" ] ; then
+                $HCIATTACH /dev/serial1 bcm43xx 3000000 flow - $BDADDR
+        else
+                $HCIATTACH /dev/serial1 bcm43xx 921600 noflow - $BDADDR
+        fi
+else
+        $HCIATTACH /dev/serial1 bcm43xx 460800 noflow - $BDADDR
+fi
+
+
+
+
 ```
