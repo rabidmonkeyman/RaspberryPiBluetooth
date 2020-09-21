@@ -12,26 +12,21 @@ This is a repository I use to document all my learning with Bluetooth capabiliti
  systemctl start hciuart.service
  
  hciconfig -a // Prints name and basic information about all the Bluetooth devices installed in the system
- sudo hciconfig hci0 name 'New device name' - This is how to change the name of the bluetooth device
+ sudo hciconfig hci0 name 'New device name' // This is how to change the name of the bluetooth device, I am not sure if you need to restart anything or if this saves after reboot
  
  hcitool scan // Gets the BD address of the pairable devices in range
+ 
+ hcitool dev // Shows you the MAC address of the raspberry pi
  
  sudo bluetoothctl // This sends you into a shell of your bluetooth module
  ```
  
 ## Setup Instructions for Phone
 ```
-sudo apt update                                        // make sure to run this so you can install the bluetooth package
-sudo apt-get dist-upgrade                              // make sure to run this so you can install the bluetooth package
-sudo apt install bluetooth pi-bluetooth bluez blueman  // if you get the error "E:" make sure you did sudo apt upgrade
-sudo reboot
-hciconfig -a                                           // You should see something under hci0, this is your raspberry pis 
-hcitool dev                                            // This should give you the Bluetooth Address of the Raspberry Pi
-hcitool scan                                           // This will scan the nearby area for any other bluetooth deviceas and give you their address and name
 sudo bluetoothctl                                      // Make sure you have the sudo, when connecting you should see "[NEW] Controller XX:XX:XX:XX:XX:XX PiTorch [default]"
 agent on
 default-agent
-scan on                                                 // This is fundimentally the same as hcitool scan however this scan repeates every few seconds until turned off
+scan on                                                 // This is fundimentally the same as "hcitool scan" however this scan repeates every few seconds until told to stop
 scan off                                                // This is how you turn off scan
 discoverable on                                         // This sets the pi to a "hotspot mode" so i can now connect to it from my phone for example. When connecting to a phone for example you have to say yes on the pi and phone when connecting since you will be prompted with a passcode
 ```
@@ -45,18 +40,21 @@ Change the line
 `ExecStart=/usr/lib/bluetooth/bluetoothd`  
 to  
 `ExecStart=/usr/lib/bluetooth/bluetoothd --noplugin=sap`  
-
+then  
 `sudo reboot`  
+
 In this file:  
 `sudo nano /lib/systemd/system/bthelper@.service`  
 add the line:  
 `ExecStartPre=/bin/sleep 2`  
 before  
 `ExecStart=/usr/bin/bthelper %I`  
+then
+`sudo reboot`
 
 Now to check if pulseaudio is running use:  
 `ps aux | grep pulseaudio`  
-if you do not see soemthing like this:  
+if you do not see something like this:  
 ```
 pi@raspberrypi:~ $ ps aux | grep pulseaudio
 pi 544 4.3 1.8 181592 17720 ? Sl 22:02 0:00 pulseaudio --start
