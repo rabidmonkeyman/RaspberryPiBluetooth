@@ -1,44 +1,88 @@
 # RaspberryPiBluetooth
-This is a repository I use to document all my learning with Bluetooth capabilities and commands of a raspberrypi.
-
-Using a Raspberry Pi 3 Model B v1.2
-- BCM43438 wireless LAN and Bluetooth Low Energy (BLE) on board
+This is a repository I use to document all my learning with Bluetooth capabilities and commands of a raspberrypi. Using a Raspberry Pi 3B+
 
 ## Commands
+
+### General Bluetooth Connections
  ```
- sudo apt update - make sure to run this so you can install the bluetooth package
- sudo apt install bluetooth pi-bluetooth bluez blueman - This downloads the necessary files to run bluetooth, bluetooth doesn't come with the operating system
- sudo apt-get install bluez-tools - This was another bluetooth driver that I downloaded and tried
- sudo apt-get blueman
- systemctl status bluetooth - if Active: inactive (dead) then run the command systemctl start bluetooth
- systemctl start bluetooth
- hciconfig - prints name and basic information about all the Bluetooth devices installed in the system
- hcitool scan - gets the BD address of the pairable devices in range
- sudo bluetoothctl - This sends you into a shell of your bluetooth module
+ systemctl status bluetooth.service // If Active: inactive (dead) then run the command systemctl start bluetooth.service
+ systemctl start bluetooth.service
+ 
+ system status hciuart.service // If you get an error in bluetoothctl saying "No default controller available" then run the command systemctl start hciuart.service
+ systemctl start hciuart.service
+ 
+ hciconfig -a // Prints name and basic information about all the Bluetooth devices installed in the system
+ sudo hciconfig hci0 name 'New device name' - This is how to change the name of the bluetooth device
+ 
+ hcitool scan // Gets the BD address of the pairable devices in range
+ 
+ sudo bluetoothctl // This sends you into a shell of your bluetooth module
  ```
-## Setup Instructions
+ 
+## Setup Instructions for Phone
 ```
 sudo apt update                                        // make sure to run this so you can install the bluetooth package
 sudo apt-get dist-upgrade                              // make sure to run this so you can install the bluetooth package
 sudo apt install bluetooth pi-bluetooth bluez blueman  // if you get the error "E:" make sure you did sudo apt upgrade
-sudo apt-get install pi-bluetooth                      // This is needed to start hciuart will give error "Failed to start hciuart.service: Unit hciuart.service is masked." if you do not do this
-
 sudo reboot
-systemctl status bluetooth                             // if Active: inactive (dead) then run the command systemctl start bluetooth
-systemctl enable bluetooth
-systemctl start bluetooth
-systemctl start hciuart                                // This keep giving me errors saying "Jobs..." 
-sudo bluetoothctl                                      // This sends you into a shell of your bluetooth module
+hciconfig -a                                           // You should see something under hci0, this is your raspberry pis 
+hcitool dev                                            // This should give you the Bluetooth Address of the Raspberry Pi
+hcitool scan                                           // This will scan the nearby area for any other bluetooth deviceas and give you their address and name
+sudo bluetoothctl                                      // Make sure you have the sudo, when connecting you should see "[NEW] Controller XX:XX:XX:XX:XX:XX PiTorch [default]"
 agent on
 default-agent
-scan on                                                // If you get the problem "No Default controller available" you have to fix it lol
+scan on                                                 // This is fundimentally the same as hcitool scan however this scan repeates every few seconds until turned off
+scan off                                                // This is how you turn off scan
+discoverable on                                         // This sets the pi to a "hotspot mode" so i can now connect to it from my phone for example. When connecting to a phone for example you have to say yes on the pi and phone when connecting since you will be prompted with a passcode
 ```
+
+## Setup Instructions for Headphones
+
+`sudo apt-get install bluealsa pulseaudio                //This is some sort of audio driver for bluetooth on the pi I found`
+In this file:
+`sudo nano /lib/systemd/system/bluetooth.service`
+Change the line 
+`ExecStart=/usr/lib/bluetooth/bluetoothd`
+to
+`ExecStart=/usr/lib/bluetooth/bluetoothd --noplugin=sap`
+
+`sudo reboot`
+In this file:
+`sudo nano /lib/systemd/system/bthelper@.service`
+add the line:
+`ExecStartPre=/bin/sleep 2`
+before 
+`ExecStart=/usr/bin/bthelper %I`
+
+Now to check if pulseaudio is running use:
+`ps aux | grep pulseaudio`
+if you do not see soemthing like this:
+```
+pi@raspberrypi:~ $ ps aux | grep pulseaudio
+pi 544 4.3 1.8 181592 17720 ? Sl 22:02 0:00 pulseaudio --start
+pi 564 0.0 0.0 7348 488 pts/0 S+ 22:02 0:00 grep --color=auto pulseaudio
+```
+then you need to start pulseaudio using this command:
+`pulseaudio --start`
+Now you are ready to connect to your bluetooth headphones doing this:
+```
+sudo bluetoothctl
+trust XX:XX:XX:XX:XX:XX                     //I am not sure if this is 100% needed to connect
+pair XX:XX:XX:XX:XX:XX                      //I am not sure if this is 100% needed to connect
+connect XX:XX:XX:XX:XX:XX
+```
+
+
+
+
 ## Useful Links
 
 - https://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/  
 - https://pimylifeup.com/raspberry-pi-bluetooth/
 - https://scribles.net/disabling-bluetooth-on-raspberry-pi/
 - https://www.linux-magazine.com/Issues/2017/197/Command-Line-bluetoothctl
+- https://bluedot.readthedocs.io/en/latest/pairpiandroid.html
+- https://peppe8o.com/fixed-connect-bluetooth-headphones-with-your-raspberry-pi/
 
 ## Device Tree Stuff Relating to Bluetooth
 Located @ /boot/overlays/README
