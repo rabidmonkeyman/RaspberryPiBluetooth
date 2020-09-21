@@ -38,33 +38,33 @@ discoverable on                                         // This sets the pi to a
 
 ## Setup Instructions for Headphones
 
-`sudo apt-get install bluealsa pulseaudio                //This is some sort of audio driver for bluetooth on the pi I found`_
-In this file:_
-`sudo nano /lib/systemd/system/bluetooth.service`_
-Change the line _
-`ExecStart=/usr/lib/bluetooth/bluetoothd`_
-to_
-`ExecStart=/usr/lib/bluetooth/bluetoothd --noplugin=sap`_
+`sudo apt-get install bluealsa pulseaudio                //This is some sort of audio driver for bluetooth on the pi I found`  
+In this file:  
+`sudo nano /lib/systemd/system/bluetooth.service`  
+Change the line   
+`ExecStart=/usr/lib/bluetooth/bluetoothd`  
+to  
+`ExecStart=/usr/lib/bluetooth/bluetoothd --noplugin=sap`  
 
-`sudo reboot`_
-In this file:_
-`sudo nano /lib/systemd/system/bthelper@.service`_
-add the line:_
-`ExecStartPre=/bin/sleep 2`_
-before _
-`ExecStart=/usr/bin/bthelper %I`_
+`sudo reboot`  
+In this file:  
+`sudo nano /lib/systemd/system/bthelper@.service`  
+add the line:  
+`ExecStartPre=/bin/sleep 2`  
+before  
+`ExecStart=/usr/bin/bthelper %I`  
 
-Now to check if pulseaudio is running use:_
-`ps aux | grep pulseaudio`_
-if you do not see soemthing like this:_
+Now to check if pulseaudio is running use:  
+`ps aux | grep pulseaudio`  
+if you do not see soemthing like this:  
 ```
 pi@raspberrypi:~ $ ps aux | grep pulseaudio
 pi 544 4.3 1.8 181592 17720 ? Sl 22:02 0:00 pulseaudio --start
 pi 564 0.0 0.0 7348 488 pts/0 S+ 22:02 0:00 grep --color=auto pulseaudio
 ```
-then you need to start pulseaudio using this command:_
-`pulseaudio --start`_
-Now you are ready to connect to your bluetooth headphones doing this:_
+then you need to start pulseaudio using this command:  
+`pulseaudio --start`  
+Now you are ready to connect to your bluetooth headphones doing this:  
 ```
 sudo bluetoothctl
 trust XX:XX:XX:XX:XX:XX                     //I am not sure if this is 100% needed to connect
