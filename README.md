@@ -70,6 +70,14 @@ pair XX:XX:XX:XX:XX:XX                      //I am not sure if this is 100% need
 connect XX:XX:XX:XX:XX:XX
 ```
 
+```
+aplay -D bluealsa:HCI=hci0,DEV=F4:7D:EF:12:88:19,PROFILE=a2dp The\ Weeknd\ -\ Blinding\ Lights\ \(Official\ Music\ Video\).mp3
+// aplay DOES NOT support mp3 files
+
+sudo apt-get install mpg123  // This is a package i found online that says it supprts mp3 files
+mpg123 -a bluealsa:HCI=hci0,DEV=F4:7D:EF:12:88:19,PROFILE=a2dp The\ Weeknd\ -\ Blinding\ Lights\ \(Official\ Music\ Video\).mp3
+```
+
 
 
 
