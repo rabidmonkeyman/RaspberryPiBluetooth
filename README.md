@@ -163,8 +163,11 @@ if [ "$uart0" = "$serial1" ] ; then
 else
         $HCIATTACH /dev/serial1 bcm43xx 460800 noflow - $BDADDR
 fi
-
-
-
-
 ```
+
+
+
+F4:7D:EF:12:88:19
+
+
+
