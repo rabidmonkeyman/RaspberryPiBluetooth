@@ -89,6 +89,10 @@ mpg123 -a bluealsa:HCI=hci0,DEV=F4:7D:EF:12:88:19,PROFILE=a2dp The\ Weeknd\ -\ B
 - https://www.linux-magazine.com/Issues/2017/197/Command-Line-bluetoothctl
 - https://bluedot.readthedocs.io/en/latest/pairpiandroid.html
 - https://peppe8o.com/fixed-connect-bluetooth-headphones-with-your-raspberry-pi/
+- http://www.bytran.org/qtrpicrosscompile.htm
+- https://doc.qt.io/qt-5/qbluetoothlocaldevice.html
+- https://doc.qt.io/qt-5/qtbluetooth-overview.html
+- https://api.kde.org/frameworks/bluez-qt/html/classBluezQt_1_1Manager.html
 
 ## Device Tree Stuff Relating to Bluetooth
 Located @ /boot/overlays/README_
