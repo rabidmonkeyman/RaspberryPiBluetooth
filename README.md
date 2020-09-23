@@ -165,7 +165,11 @@ else
 fi
 ```
 
+## Scripts
 
+BConnect - Bluetooth Connect
+BDisconnect - Bluetooth Disconnect
+BScan - Bluetooth Scan
 
 F4:7D:EF:12:88:19
 
