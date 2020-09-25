@@ -174,6 +174,7 @@ fi
 BConnect - Bluetooth Connect  
 BDisconnect - Bluetooth Disconnect  
 BScan - Bluetooth Scan  
+scanner - QT QML Bluetooth App
 
 F4:7D:EF:12:88:19
 
