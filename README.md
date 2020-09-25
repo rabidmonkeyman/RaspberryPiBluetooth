@@ -176,16 +176,34 @@ BDisconnect - Bluetooth Disconnect
 BScan - Bluetooth Scan  
 scanner - QT QML Bluetooth App
 
+
  ## Enabling Bluetooth on Pi for QT
+
+Building Qt Bluetooth  - https://doc.qt.io/qt-5/qtbluetooth-index.html
+
+Despite the fact that the module can be built for all Qt platforms, the module is not ported to all of them. Not supported platforms employ a fake or dummy backend which is automatically selected when the platform is not supported. The dummy backend reports appropriate error messages and values which allow the Qt Bluetooth developer to detect at runtime that the current platform is not supported. The dummy backend is also selected on Linux if BlueZ development headers are not found during build time or Qt was built without Qt D-Bus support.  
+ 
+I am currently having a problem when running the qt bluetooth examples saying `qt.bluetooth: Dummy backend running. Qt Bluetooth module is non-functional`   
+Currently I am getting an error with this part in my qt code as well, i think it has to do with the dummy backend running:    
+`BluetoothDiscoveryModel.InvalidBluetoothAdapterError`   
+Here is the link for the documentation of that code:  
+- https://doc.qt.io/qt-5/qml-qtbluetooth-bluetoothdiscoverymodel.html  
+
+
+
+
+
+
+I've Installed `sudo apt-get install libqt5bluetooth5 qtconnectivity5-dev`, which didn't work  
+
 - http://www.bytran.org/qtrpicrosscompile.htm
 
 If you plan on using Bluetooth, the following libraries (libbluetooth-dev bluetooth blueman bluez libusb-dev libdbus-1-dev bluez-hcidump bluez-tools) need to be installed onto the Raspbian system after step 6 and before step 8 in the above guide as outlined in the following post.   These libraries must be installed onto the Raspberry Pi before the initial sync of the libs located on the Raspbian system (step 8 in the above guide) to the host cross-compilation computer.   As outlined in the above post, if you fail to install these libraries before you cross-compile, the Bluetooth will not be functional resulting in the "qt.bluetooth: Dummy backend running. Qt Bluetooth module is non-functional." message when you try to run your application. 
 
-You need to do this when you setup the pi before using rsync commands on host pc.
+I ended up doing as this website says and still not working.  
 
-F4:7D:EF:12:88:19
+My only question in my mind is that the Bluetooth App on QT is designed for something other than linux, like maybe windows or android????  
 
-192.168.4.151
+Looking at this page I think maybe its a problem with BlueZ (The driver for bluetooth on the pi) and QT communicating properly. https://doc.qt.io/qt-5/qtbluetooth-attribution-bluez.html
 
-
-
+Earbud MAC Address: F4:7D:EF:12:88:19
