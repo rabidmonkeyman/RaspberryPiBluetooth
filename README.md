@@ -176,6 +176,13 @@ BDisconnect - Bluetooth Disconnect
 BScan - Bluetooth Scan  
 scanner - QT QML Bluetooth App
 
+ ## Enabling Bluetooth on Pi for QT
+- http://www.bytran.org/qtrpicrosscompile.htm
+
+If you plan on using Bluetooth, the following libraries (libbluetooth-dev bluetooth blueman bluez libusb-dev libdbus-1-dev bluez-hcidump bluez-tools) need to be installed onto the Raspbian system after step 6 and before step 8 in the above guide as outlined in the following post.   These libraries must be installed onto the Raspberry Pi before the initial sync of the libs located on the Raspbian system (step 8 in the above guide) to the host cross-compilation computer.   As outlined in the above post, if you fail to install these libraries before you cross-compile, the Bluetooth will not be functional resulting in the "qt.bluetooth: Dummy backend running. Qt Bluetooth module is non-functional." message when you try to run your application. 
+
+You need to do this when you setup the pi before using rsync commands on host pc.
+
 F4:7D:EF:12:88:19
 
 192.168.4.151
