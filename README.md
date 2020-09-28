@@ -34,6 +34,7 @@ discoverable on                                         // This sets the pi to a
 ## Setup Instructions for Headphones
 
 `sudo apt-get install bluealsa pulseaudio                //This is some sort of audio driver for bluetooth on the pi I found`  
+The bluetooth hd service tries to instantiate phone based plugins so we need to disable those or we get errors  
 In this file:  
 `sudo nano /lib/systemd/system/bluetooth.service`  
 Change the line   
